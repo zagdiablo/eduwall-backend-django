@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<h1>{{ materi.judul_materi }}</h1>
+{% endblock %}
+
+
+{% block main %}
+<section>
+    <article>
+        <ul>
+            <li><a href="{% url 'mahasiswa:modul_materi' materi.id %}">Modul Pembelajaran</a></li>
+            <li><a href="{% url 'mahasiswa:quiz_materi' materi.id %}">Quiz</a></li>
+            <li><a href="{% url 'mahasiswa:nilai_quiz' materi.id %}">Nilai</a></li>
+        </ul>
+
+        <a href="{% url 'mahasiswa:list_materi' materi.matkul_id%}">Kembali</a>
+    </article>
+</section>
+{% endblock %}

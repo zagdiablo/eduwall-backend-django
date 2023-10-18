@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block extra_css %}{% endblock %}
+
+    <title>{{site_title}} | Eduwall</title>
+</head>
+
+<body>
+
+    <head>
+        {% block head %}
+        {% endblock %}
+    </head>
+
+    <main>
+        {% block main %}
+        {% endblock %}
+    </main>
+</body>
+{% block extra_js %}
+{% endblock %}
+
+</html>

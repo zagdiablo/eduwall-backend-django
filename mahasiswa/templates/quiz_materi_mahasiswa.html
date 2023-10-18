@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<h1>list quiz materi {{materi.judul_materi}}</h1>
+{% endblock %}
+
+
+{% block main %}
+<section>
+    <article>
+        <ul>
+            {% for quiz in all_quiz %}
+            <li>
+                {{quiz.judul_quiz}} |
+                <a href="{% url 'mahasiswa:play_quiz' materi.id quiz.id %}">Play</a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'mahasiswa:konten_materi' materi.id %}">Kembali</a>
+    </article>
+</section>
+{% endblock %}

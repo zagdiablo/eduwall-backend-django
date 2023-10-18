@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<h1>Edit soal quiz: {{quiz.judul_quiz}}</h1>
+{% endblock %}
+
+
+{% block main %}
+<section>
+    <article>
+        <form action="{% url 'dosen:edit_soal_quiz' materi.id matkul.id quiz.id soal.id %}" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+
+            {% if form.errors or form.non_field_errors %}
+            {% for field in form %}
+            {{field.errors}}
+            {% endfor %}
+            {% endif %}
+
+            <button type="submit">Tambah</button>
+            <br>
+            <a href="{% url 'dosen:edit_quiz_materi' materi.id matkul.id quiz.id %}">Kembali</a>
+        </form>
+    </article>
+</section>
+{% endblock %}

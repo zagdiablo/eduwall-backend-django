@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<h1>{{matkul.judul_matkul}}</h1>
+{% endblock %}
+
+
+{% block main %}
+<section>
+    <article>
+        <ul>
+            {% for materi in all_materi %}
+            <li><a href="{% url 'mahasiswa:konten_materi' materi.id %}">{{materi.judul_materi}}</a></li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'mahasiswa:list_mata_kuliah' %}">Kembali</a>
+    </article>
+</section>
+{% endblock %}

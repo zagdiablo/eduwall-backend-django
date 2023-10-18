@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<h1>Login Page</h1>
+{% endblock %}
+
+
+{% block main %}
+<section>
+    <article>
+        <form action="{% url 'portal:login' %}" method="post">
+            {% csrf_token %}
+            <ul>
+                <li>
+                    <label for="id_username">
+                        Username
+                    </label>
+                    {{form.username}}
+                </li>
+
+                <li>
+                    <label for="id_password">
+                        Password
+                    </label>
+
+                    {{form.password}}
+                </li>
+            </ul>
+
+            {% if form.errors or form.non_field_errors %}
+            {% for field in form %}
+            {{field.errors}}
+            {% endfor %}
+            {% endif %}
+
+            <button type="submit">Login</button>
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'portal:logout' %}">Logout</a>
+            {% endif %}
+        </form>
+    </article>
+</section>
+{% endblock %}

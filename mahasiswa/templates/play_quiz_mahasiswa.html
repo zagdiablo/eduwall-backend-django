@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<h1>Play Quiz: {{quiz.judul_quiz}}</h1>
+{% endblock %}
+
+
+{% block main %}
+<section>
+    <article>
+        <form action="{% url 'mahasiswa:play_quiz' materi.id quiz.id %}" method="post">
+            {% csrf_token %}
+            {% for soal in soal_quiz %}
+            <p>{{soal.text_soal}}</p>
+            <ol type="A">
+                <li>{{soal.jawaban_a}}</li>
+                <li>{{soal.jawaban_a}}</li>
+                <li>{{soal.jawaban_a}}</li>
+                <li>{{soal.jawaban_a}}</li>
+            </ol>
+            <select name="jawaban_{{soal.id}}" id="jawaban{{soal.id}}">
+                <option value="a">A</option>
+                <option value="b">B</option>
+                <option value="c">C</option>
+                <option value="d">D</option>
+            </select>
+
+            {% endfor %}
+            <br>
+            <button type="submit">Selesai</button>
+            <br>
+            <a href="{% url 'mahasiswa:quiz_materi' materi.id %}">Kembali</a>
+        </form>
+    </article>
+</section>
+{% endblock %}

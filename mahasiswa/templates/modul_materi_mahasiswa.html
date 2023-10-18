@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<h1>modul {{materi.judul_materi}}</h1>
+{% endblock %}
+
+{% block main %}
+<section>
+    <article>
+        <ul>
+            <li>url video materi: {{materi.url_video}}</li>
+            <p>Transcript Video:</p>
+            <p>
+                {{materi.video_text_transcript}}
+            </p>
+            {% if file_module %}
+            <li><a href="{{materi.file_materi.url}}" download="{{materi.file_materi.url}}">Download modul</a></li>
+            {% else %}
+            <li>Tidak ada modul.</li>
+            {% endif %}
+        </ul>
+
+        <a href="{% url 'mahasiswa:konten_materi' materi.id %}">Kembali</a>
+    </article>
+</section>
+{% endblock %}
