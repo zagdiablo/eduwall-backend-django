@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,15 +24,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-=^9&loakl7or0ycx#npsxqqr$zqun+otrh@g3d9io%#-19rpel"
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.environ.get("SECRET_KEY")
+DEBUG = int(os.environ.get("DEBUG", default=0))
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
-ALLOWED_HOSTS = []
+# DEBUG = True
+# SECRET_KEY = "django-insecure-=^9&loakl7or0ycx#npsxqqr$zqun+otrh@g3d9io%#-19rpel"
+# ALLOWED_HOSTS = []
 
-LOGIN_URL = "login/"
-LOGIN_REDIRECT_URL = "/"
+
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/dashboard_redirect"
 LOGOUT_REDIRECT_URL = "/"
 
 # Application definition
@@ -40,9 +47,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_extensions",  # Great packaged to access abstract models
+    "django_filters",  # Used with DRF
+    "rest_framework",  # DRF package
+    "rest_framework.authtoken",
     "mahasiswa",
     "dosen",
     "portal",
+    "api",
 ]
 
 MIDDLEWARE = [
@@ -122,6 +134,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "portal/static"),
+    os.path.join(BASE_DIR, "dosen/static"),
+    os.path.join(BASE_DIR, "mahasiswa/static"),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, "assets")
+
 MEDIA_URL = "media/"
 
 MEDIA_ROOT = BASE_DIR / "media"

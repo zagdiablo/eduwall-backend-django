@@ -1,18 +1,27 @@
-{% extends 'base.html' %}
+{% extends 'dosen_base.html' %}
 
 
-{% block head %}
-<h1>Edit quiz: {{quiz.judul_quiz}}</h1>
-{% endblock %}
+{% block content %}
+<!-- tambah materi section -->
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            Edit Quiz: {{quiz.judul_quiz}}
+        </h4>
+    </div>
 
-
-{% block main %}
-<section>
-    <article>
-        <h3>edit quiz info:</h3>
+    <div class="card-body">
         <form action="{% url 'dosen:edit_quiz_materi' materi.id matkul.id quiz.id %}" method="post">
             {% csrf_token %}
-            {{form.as_p}}
+
+            <div class="form-group">
+                <label for="id_judul_materi">Judul Quiz</label>
+                {{form.judul_quiz}}
+            </div>
+            <div class="form-group">
+                <label for="id_url_video">Waktu Pengerjaan</label>
+                {{form.waktu_pengerjaan}}
+            </div>
 
             {% if form.errors or form.non_field_errors %}
             {% for field in form %}
@@ -20,23 +29,68 @@
             {% endfor %}
             {% endif %}
 
-            <button type="submit">Simpan</button>
+            <button class="btn btn-primary" type="submit">Simpan</button>
+            <a class="btn btn-secondary" href="{% url 'dosen:edit_materi_matkul' materi.id matkul.id %}">Kembali</a>
         </form>
-    </article>
+    </div>
+</div>
+<!-- tambah materi section end -->
 
-    <article>
-        <h3>soal:</h3>
-        <ul>
-            {% for soal in all_soal %}
-            <li>
-                <a href="{% url 'dosen:edit_soal_quiz' materi.id matkul.id quiz.id soal.id %}">{{soal.text_soal}}</a> |
-                <a href="{% url 'dosen:delete_soal_quiz' materi.id matkul.id quiz.id soal.id %}">Hapus</a>
-            </li>
-            {% endfor %}
-        </ul>
-        <a href="{% url 'dosen:tambah_soal_quiz' materi.id matkul.id quiz.id %}">Tambah soal</a>
-        <br>
-        <a href="{% url 'dosen:edit_materi_matkul' materi.id matkul.id %}">Kembali</a>
-    </article>
-</section>
+<!-- list materi section -->
+<div class="page-heading">
+    <section class="section">
+        {% if all_soal %}
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">
+                    List Soal
+                </h4>
+                <a class="btn btn-primary" href="{% url 'dosen:tambah_soal_quiz' materi.id matkul.id quiz.id %}">Tambah
+                    Soal</a>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th>Soal</th>
+                            <th>Jawaban Benar</th>
+                            <th>Alat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for soal in all_soal %}
+                        <tr>
+                            <td>{{soal.text_soal}}</td>
+                            <td>{{soal.jawaban_benar}}</td>
+                            <td>
+                                <a href="{% url 'dosen:edit_soal_quiz' materi.id matkul.id quiz.id soal.id %}"
+                                    class="btn icon btn-warning"><i class="bi bi-pencil" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Edit"></i></a>
+                                <a href="{% url 'dosen:delete_soal_quiz' materi.id matkul.id quiz.id soal.id %}"
+                                    class="btn icon btn-danger"><i class="bi bi-x" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Hapus"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">
+                    List Soal
+                </h4>
+            </div>
+            <div class="card-body">
+                <p>Belum Ada Soal Yang Dibuat.</p>
+                <a class="btn btn-primary" href="{% url 'dosen:tambah_soal_quiz' materi.id matkul.id quiz.id %}">Tambah
+                    Soal</a>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+</div>
+<!-- list materi section end -->
 {% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<h1>Edit Materi: {{materi.judul_materi}}</h1>
+{% endblock %}
+
+{% block main %}
+<section>
+    <article>
+        <h3>List Quiz</h3>
+        <ul>
+            {% for quiz in all_quiz_materi %}
+            <li>
+                <a href="{% url 'dosen:edit_quiz_materi' materi.id matkul.id quiz.id %}">{{quiz.judul_quiz}}</a> |
+                <a href="{% url 'dosen:delete_quiz_materi' materi.id matkul.id quiz.id %}">Hapus</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'dosen:tambah_quiz_materi' materi.id matkul.id %}">Tambah quiz</a>
+        <hr>
+    </article>
+
+    <article>
+        <form action="{% url 'dosen:edit_materi_matkul' materi.id matkul.id %}" method="post"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p}}
+
+            {% if form.errors or form.non_field_errors %}
+            {% for field in form %}
+            {{field.errors}}
+            {% endfor %}
+            {% endif %}
+
+            <button type="submit">Simpan</button>
+            <br>
+            <a href="{% url 'dosen:tambah_materi_matkul' matkul.id %}">Kembali</a>
+        </form>
+    </article>
+</section>
+{% endblock %}

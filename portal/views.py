@@ -3,7 +3,7 @@ from . import models
 
 
 # Create your views here.
-def test_redirect(request):
+def login_redirect(request):
     if request.user.is_authenticated:
         return redirect("dashboard_redirect/")
 

@@ -1,23 +1,13 @@
-{% extends 'base.html' %}
+{% extends 'dosen_base.html' %}
 
 
-{% block head %}
-<h1>Hello {{request.user.username}}</h1>
-{% endblock %}
-
-
-{% block main %}
-<section>
-    <article>
-        <ul>
-            {% for matkul in all_matkul_diajar %}
-            <li><a href="{% url 'dosen:tambah_materi_matkul' matkul.id %}">{{matkul.judul_matkul}} |
-                    {{maktul.dosen_pengampu.nama_lengkap}}</a></li>
-            {% endfor %}
-        </ul>
-
-        <p>content goes here.</p>
-        <a href="{% url 'portal:logout' %}">Logout</a>
-    </article>
-</section>
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">Selamat Datang!</h4>
+  </div>
+  <div class="card-body">
+    Silahkan pilih mata kuliah yang ingin anda ubah.
+  </div>
+</div>
 {% endblock %}

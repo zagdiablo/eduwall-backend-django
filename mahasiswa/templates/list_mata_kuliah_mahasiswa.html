@@ -1,22 +1,87 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
 
+{% load static %}
 
-{% block head %}
-<h1>List Matkul</h1>
-{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/mahasiswa_style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
 
+<body>
+    <!-- header section -->
+    <div class="header" id="header">
+        <div class="back-button">
+            <i class="fa-solid fa-arrow-left fa-2xl" style="color: #ffffff;"></i>
+        </div>
+        <p class="app-title">Eduwall SuperApps</p>
+        <input type="text" placeholder="Cari Matkul" class="matkul-search-bar">
+    </div>
+    <!-- end of header section -->
 
-{% block main %}
-<section>
-    <article>
-        <ul>
+    <!-- menu bar section -->
+    <div class="menu-bar">
+        <div class="tugas menu-container">
+            <i class="fa-solid fa-book fa-2xl men-button-icon" style="color: #ffffff;"></i>
+            <p>Tugas</p>
+        </div>
+        <div class="jadwal menu-container">
+            <i class="fa-solid fa-clipboard-list fa-2xl men-button-icon" style="color: #ffffff;"></i>
+            <p>Jadwal</p>
+        </div>
+        <div class="nilai menu-container">
+            <i class="fa-solid fa-chart-line fa-2xl men-button-icon" style="color: #ffffff;"></i>
+            <p>Nilai</p>
+        </div>
+    </div>
+    <!-- end of menu bar section -->
+
+    <!-- module list section -->
+    <div class="module-list">
+        <div class="title">
+            <h3>Matkul</h3>
+        </div>
+
+        <div class="module-card-container">
             {% for matkul in all_matkul %}
-            <li><a href="{% url 'mahasiswa:list_materi' matkul.id%}">{{matkul.judul_matkul}} |
-                    {{matkul.dosen_pengampu.nama_lengkap}}</a></li>
+            <a class="module-card shadow-pop-bl" href="{% url 'mahasiswa:list_materi' matkul.id%}">
+                <img class="matkul-img" src="{% static 'mahasiswa_img/img-placeholder.png' %}" alt="">
+                <p>{{matkul.judul_matkul}}</p>
+            </a>
             {% endfor %}
-        </ul>
+        </div>
+    </div>
+    <!-- end of module list section -->
 
-        <a href="{% url 'mahasiswa:dashboard' %}">Kembali</a>
-    </article>
-</section>
-{% endblock %}
+    <!-- bottom nav section -->
+    <div class="bottom-nav-bar">
+        <div class="home bot-button">
+            <i class="fa-solid fa-house fa-2xl bot-button-icon" style="color: #a6a6a6;"></i>
+            <span class="bot-button-text">Home</span>
+        </div>
+
+        <div class="materi bot-button">
+            <i class="fa-solid fa-file-lines fa-2xl bot-button-icon" style="color: #a6a6a6;"></i>
+            <span class="bot-button-text">Materi</span>
+        </div>
+
+        <div class="quiz bot-button">
+            <i class="fa-solid fa-bolt fa-2xl bot-button-icon" style="color: #a6a6a6;"></i>
+            <span class="bot-button-text">Quiz</span>
+        </div>
+
+        <div class="profile bot-button">
+            <i class="fa-solid fa-user-large fa-2xl bot-button-icon" style="color: #a6a6a6;"></i>
+            <span class="bot-button-text">Profile</span>
+        </div>
+    </div>
+    <!-- end of bottom nav section -->
+</body>
+<script src="https://kit.fontawesome.com/0d438fc0b1.js" crossorigin="anonymous"></script>
+
+</html>

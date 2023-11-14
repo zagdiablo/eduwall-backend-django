@@ -29,12 +29,13 @@ def dashboard(request):
 def tambah_materi_matkul(request, matkul_id):
     matkul = get_object_or_404(models.Matkul, id=matkul_id)
     account_data = get_object_or_404(models.Role, user_id=request.user.id)
+    all_matkul_diajar = models.Matkul.objects.filter(dosen_pengampu=account_data.id)
     all_materi = models.Materi.objects.filter(
         matkul_id=matkul_id, dosen_pembuat=account_data.id
     )
 
     if request.method == "POST":
-        form = forms.EditMateriForm(request.POST)
+        form = forms.TambahMateriForm(request.POST, request.FILES)
         if form.is_valid():
             materi = form.save(commit=False)
             materi.matkul = matkul
@@ -44,7 +45,7 @@ def tambah_materi_matkul(request, matkul_id):
             materi.save()
             return redirect("dosen:tambah_materi_matkul", matkul_id)
     else:
-        form = forms.EditMateriForm()
+        form = forms.TambahMateriForm()
 
         return render(
             request,
@@ -54,6 +55,7 @@ def tambah_materi_matkul(request, matkul_id):
                 "account_data": account_data,
                 "all_materi": all_materi,
                 "form": form,
+                "all_matkul_diajar": all_matkul_diajar,
             },
         )
 
@@ -61,7 +63,8 @@ def tambah_materi_matkul(request, matkul_id):
 @login_required
 def edit_materi_matkul(request, materi_id, matkul_id):
     materi = get_object_or_404(models.Materi, pk=materi_id)
-    account_data = get_object_or_404(models.Role, user=request.user)
+    account_data = get_object_or_404(models.Role, user_id=request.user.id)
+    all_matkul_diajar = models.Matkul.objects.filter(dosen_pengampu=account_data.id)
     matkul = get_object_or_404(models.Matkul, id=matkul_id)
     all_quiz_materi = models.Quiz.objects.filter(materi=materi)
 
@@ -76,7 +79,9 @@ def edit_materi_matkul(request, materi_id, matkul_id):
             materi.save()
             return redirect("dosen:tambah_materi_matkul", matkul_id)
     else:
-        form = forms.EditMateriForm()
+        form = forms.EditMateriForm(
+            initial={"judul_materi": materi.judul_materi, "url_video": materi.url_video}
+        )
 
     return render(
         request,
@@ -86,6 +91,8 @@ def edit_materi_matkul(request, materi_id, matkul_id):
             "form": form,
             "matkul": matkul,
             "all_quiz_materi": all_quiz_materi,
+            "all_matkul_diajar": all_matkul_diajar,
+            "account_data": account_data,
         },
     )
 
@@ -102,7 +109,8 @@ def delete_materi_matkul(request, materi_id, matkul_id):
 def tambah_quiz_materi(request, materi_id, matkul_id):
     matkul = get_object_or_404(models.Matkul, pk=matkul_id)
     materi = get_object_or_404(models.Materi, pk=materi_id)
-    account_data = get_object_or_404(models.Role, user=request.user)
+    account_data = get_object_or_404(models.Role, user_id=request.user.id)
+    all_matkul_diajar = models.Matkul.objects.filter(dosen_pengampu=account_data.id)
 
     if request.method == "POST":
         form = forms.EditQuizForm(request.POST)
@@ -123,6 +131,7 @@ def tambah_quiz_materi(request, materi_id, matkul_id):
             "account_data": account_data,
             "matkul": matkul,
             "form": form,
+            "all_matkul_diajar": all_matkul_diajar,
         },
     )
 
@@ -132,7 +141,8 @@ def edit_quiz_materi(request, materi_id, matkul_id, quiz_id):
     matkul = get_object_or_404(models.Matkul, pk=matkul_id)
     materi = get_object_or_404(models.Materi, pk=materi_id)
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
-    account_data = get_object_or_404(models.Role, user=request.user)
+    account_data = get_object_or_404(models.Role, user_id=request.user.id)
+    all_matkul_diajar = models.Matkul.objects.filter(dosen_pengampu=account_data.id)
     all_soal = models.Soal.objects.filter(quiz=quiz)
 
     if request.method == "POST":
@@ -144,7 +154,12 @@ def edit_quiz_materi(request, materi_id, matkul_id, quiz_id):
             quiz.save()
             return redirect("dosen:edit_quiz_materi", materi_id, matkul_id, quiz_id)
     else:
-        form = forms.EditQuizForm()
+        form = forms.EditQuizForm(
+            initial={
+                "judul_quiz": quiz.judul_quiz,
+                "waktu_pengerjaan": quiz.waktu_pengerjaan,
+            }
+        )
 
     return render(
         request,
@@ -155,6 +170,8 @@ def edit_quiz_materi(request, materi_id, matkul_id, quiz_id):
             "quiz": quiz,
             "form": form,
             "all_soal": all_soal,
+            "all_matkul_diajar": all_matkul_diajar,
+            "account_data": account_data,
         },
     )
 
@@ -172,7 +189,8 @@ def tambah_soal_quiz(request, materi_id, matkul_id, quiz_id):
     matkul = get_object_or_404(models.Matkul, pk=matkul_id)
     materi = get_object_or_404(models.Materi, pk=materi_id)
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
-    account_data = get_object_or_404(models.Role, user=request.user)
+    account_data = get_object_or_404(models.Role, user_id=request.user.id)
+    all_matkul_diajar = models.Matkul.objects.filter(dosen_pengampu=account_data.id)
 
     if request.method == "POST":
         form = forms.EditSoalForm(request.POST)
@@ -180,7 +198,7 @@ def tambah_soal_quiz(request, materi_id, matkul_id, quiz_id):
             soal = form.save(commit=False)
             soal.quiz = quiz
             soal.save()
-            return redirect("dosen:tambah_soal_quiz", materi.id, matkul.id, quiz.id)
+            return redirect("dosen:edit_quiz_materi", materi.id, matkul.id, quiz.id)
     else:
         form = forms.EditSoalForm()
 
@@ -193,6 +211,7 @@ def tambah_soal_quiz(request, materi_id, matkul_id, quiz_id):
             "quiz": quiz,
             "account_data": account_data,
             "form": form,
+            "all_matkul_diajar": all_matkul_diajar,
         },
     )
 
@@ -203,7 +222,8 @@ def edit_soal_quiz(request, materi_id, matkul_id, quiz_id, soal_id):
     materi = get_object_or_404(models.Materi, pk=materi_id)
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
     soal = get_object_or_404(models.Soal, pk=soal_id)
-    account_data = get_object_or_404(models.Role, user=request.user)
+    account_data = get_object_or_404(models.Role, user_id=request.user.id)
+    all_matkul_diajar = models.Matkul.objects.filter(dosen_pengampu=account_data.id)
 
     if request.method == "POST":
         form = forms.EditSoalForm(request.POST, instance=soal)
@@ -213,7 +233,16 @@ def edit_soal_quiz(request, materi_id, matkul_id, quiz_id, soal_id):
             soal.save()
             return redirect("dosen:edit_quiz_materi", materi.id, matkul.id, quiz.id)
     else:
-        form = forms.EditSoalForm()
+        form = forms.EditSoalForm(
+            initial={
+                "text_soal": soal.text_soal,
+                "jawaban_a": soal.jawaban_a,
+                "jawaban_b": soal.jawaban_b,
+                "jawaban_c": soal.jawaban_c,
+                "jawaban_d": soal.jawaban_d,
+                "jawaban_benar": soal.jawaban_benar,
+            }
+        )
 
     return render(
         request,
@@ -225,6 +254,7 @@ def edit_soal_quiz(request, materi_id, matkul_id, quiz_id, soal_id):
             "account_data": account_data,
             "form": form,
             "soal": soal,
+            "all_matkul_diajar": all_matkul_diajar,
         },
     )
 

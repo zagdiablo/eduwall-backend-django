@@ -7,7 +7,7 @@ app_name = "portal"
 
 
 urlpatterns = [
-    path("", views.test_redirect, name="test_redirect"),
+    path("", views.login_redirect, name="login_redirect"),
     path("dashboard_redirect/", views.dashboard_redirect, name="dashboard_redirect"),
     path(
         "login/",

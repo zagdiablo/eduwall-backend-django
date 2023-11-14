@@ -11,11 +11,17 @@ def dashboard(request):
     account_data = get_object_or_404(models.Role, user_id=request.user.id)
 
     if account_data:
-        return render(
-            request,
-            "dashboard_mahasiswa.html",
-            {"site_title": "Dashboard Mahasiswa", "account_data": account_data},
-        )
+        # return render(
+        #     request,
+        #     "dashboard_mahasiswa.html",
+        #     {"site_title": "Dashboard Mahasiswa", "account_data": account_data},
+        # )
+        # return render(
+        #     request,
+        #     "mahasiswa_base.html",
+        #     {"site_title": "Dashboard Mahasiswa", "account_data": account_data},
+        # )
+        return redirect('mahasiswa:list_mata_kuliah')
 
     return redirect("portal:logout", kwargs={"site_title": "Login"})
 
@@ -32,7 +38,7 @@ def edit_profile(request):
             # account_data.nim = form.cleaned_data["nim"]
             account_data.save()
 
-            return render(
+            return render( 
                 request,
                 "edit_profile_mahasiswa.html",
                 {

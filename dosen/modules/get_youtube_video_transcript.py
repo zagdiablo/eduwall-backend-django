@@ -29,9 +29,17 @@ def video_id(value):
 
 def get_transcript(url):
     get_video_id = video_id(url)
-    raw_transcript = YouTubeTranscriptApi.get_transcript(
-        get_video_id, languages=["id", "en"]
-    )
+    raw_transcript = ""
+
+    try:
+        raw_transcript = YouTubeTranscriptApi.get_transcript(
+            get_video_id, languages=["id", "en"]
+        )
+    except AssertionError:
+        print("Youtube video id is invalid.")
+    except Exception:
+        print("Unknown error occured in get_youtube_video_transcript module.")
+
     cooked_transcript = ""
 
     for text in raw_transcript:

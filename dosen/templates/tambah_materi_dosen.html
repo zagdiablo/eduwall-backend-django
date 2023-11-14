@@ -1,26 +1,31 @@
-{% extends 'base.html' %}
+{% extends 'dosen_base.html' %}
 
 
-{% block head %}
-<h1>Tambah Materi</h1>
-{% endblock %}
+{% block content %}
+<!-- tambah materi section -->
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            Buat Materi Baru
+        </h4>
+    </div>
 
-
-{% block main %}
-<section>
-    <article>
-        <ul>
-            {% for materi in all_materi %}
-            <li>
-                <a href="/dosen/edit_materi_matkul/{{materi.id}}/{{matkul.id}}">{{materi.judul_materi}}</a> |
-                <a href="{% url 'dosen:delete_materi_matkul' materi.id  matkul.id %}">Hapus</a>
-            </li>
-            {% endfor %}
-        </ul>
-
+    <div class="card-body">
         <form action="{% url 'dosen:tambah_materi_matkul' matkul.id%}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{form.as_p}}
+
+            <div class="form-group">
+                <label for="id_judul_materi">Judul Materi</label>
+                {{form.judul_materi}}
+            </div>
+            <div class="form-group">
+                <label for="id_url_video">URL Video</label>
+                {{form.url_video}}
+            </div>
+            <div class="form-group">
+                <label for="id_file_materi">File Materi</label>
+                {{form.file_materi}}
+            </div>
 
             {% if form.errors or form.non_field_errors %}
             {% for field in form %}
@@ -28,10 +33,86 @@
             {% endfor %}
             {% endif %}
 
-            <button type="submit">Tambah</button>
-            <br>
-            <a href="{% url 'dosen:dashboard' %}">Kembali</a>
+            <button class="btn btn-primary" type="submit">Tambah</button>
         </form>
-    </article>
-</section>
+    </div>
+</div>
+<!-- tambah materi section end -->
+
+<!-- list materi section -->
+<div class="page-heading">
+    <section class="section">
+        {% if all_materi %}
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">
+                    Materi Matkul
+                </h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th>Judul Materi</th>
+                            <th>Pembuat Materi</th>
+                            <th>Alat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for materi in all_materi %}
+                        <tr>
+                            <td>{{materi.judul_materi}}</td>
+                            <td>{{materi.dosen_pembuat.nama_lengkap}}</td>
+                            <td>
+                                <a href="/dosen/edit_materi_matkul/{{materi.id}}/{{matkul.id}}"
+                                    class="btn icon btn-warning"><i class="bi bi-pencil" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Edit"></i></a>
+                                <a href="{% url 'dosen:delete_materi_matkul' materi.id  matkul.id %}"
+                                    class="btn icon btn-danger"><i class="bi bi-x" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Hapus"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">
+                    Materi Matkul
+                </h4>
+            </div>
+            <div class="card-body">
+                Belum Ada Materi Yang Dibuat.
+            </div>
+        </div>
+        {% endif %}
+    </section>
+</div>
+<!-- list materi section end -->
+
+
+<!-- <div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            Materi Matkul
+        </h4>
+    </div>
+    <div class="card-body">
+        <ul>
+            {% if all_materi %}
+            {% for materi in all_materi %}
+            <li>
+                <a href="/dosen/edit_materi_matkul/{{materi.id}}/{{matkul.id}}">{{materi.judul_materi}}</a> |
+                <a href="{% url 'dosen:delete_materi_matkul' materi.id  matkul.id %}">Hapus</a>
+            </li>
+            {% endfor %}
+            {% else %}
+            Belum ada materi yang dibuat
+            {% endif %}
+        </ul>
+    </div>
+</div> -->
 {% endblock %}

@@ -1,28 +1,38 @@
-{% extends 'base.html' %}
+{% extends 'dosen_base.html' %}
 
 
-{% block head %}
-<h1>Tambah quiz | materi: {{materi.judul_materi}}</h1>
-{% endblock %}
+{% block content %}
+<!-- tambah materi section -->
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">
+            Tambah Quiz Baru
+        </h4>
+    </div>
 
-
-{% block main %}
-<section>
-    <article>
+    <div class="card-body">
         <form action="{% url 'dosen:tambah_quiz_materi' materi.id matkul.id %}" method="post">
             {% csrf_token %}
-            {{form.as_p}}
 
-            {% if form.errors or form.non_field.errors %}
+            <div class="form-group">
+                <label for="id_judul_materi">Judul Quiz</label>
+                {{form.judul_quiz}}
+            </div>
+            <div class="form-group">
+                <label for="id_url_video">Waktu Pengerjaan</label>
+                {{form.waktu_pengerjaan}}
+            </div>
+
+            {% if form.errors or form.non_field_errors %}
             {% for field in form %}
             {{field.errors}}
             {% endfor %}
             {% endif %}
 
-            <button type="submit">Tambah</button>
+            <button class="btn btn-primary" type="submit">Tambah</button>
+            <a class="btn btn-secondary" href="{% url 'dosen:edit_materi_matkul' materi.id matkul.id %}">Kembali</a>
         </form>
-
-        <a href="{% url 'dosen:edit_materi_matkul' materi.id matkul.id %}">Kembali</a>
-    </article>
-</section>
+    </div>
+</div>
+<!-- tambah materi section end -->
 {% endblock %}
