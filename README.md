@@ -34,5 +34,5 @@ Start the server
 
 ## Documentation
 
-[Djanog 4.2 Documentation](https://docs.djangoproject.com/en/4.2/)
+[Django 4.2 Documentation](https://docs.djangoproject.com/en/4.2/)
 
