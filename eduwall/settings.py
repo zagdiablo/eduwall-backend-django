@@ -28,6 +28,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = int(os.environ.get("DEBUG", default=0))
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 86400  # 1 day
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+CSRF_COOKIE_SECURE = (
+    True  # to avoid transmitting the CSRF cookie over HTTP accidentally.
+)
+SESSION_COOKIE_SECURE = (
+    True  # to avoid transmitting the session cookie over HTTP accidentally.
+)
 
 # DEBUG = True
 # SECRET_KEY = "django-insecure-=^9&loakl7or0ycx#npsxqqr$zqun+otrh@g3d9io%#-19rpel"

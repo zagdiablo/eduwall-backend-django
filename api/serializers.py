@@ -13,7 +13,7 @@ class UserSeralizer(serializers.ModelSerializer):
 class RoleSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = portal_models.Role
-        fields = ["id", "kelas", "nama_lengkap", "role", "nim"]
+        fields = ["id", "kelas", "nama_lengkap", "role", "nim", "nid"]
 
 
 class KelasSerializer(serializers.ModelSerializer):
