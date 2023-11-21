@@ -52,7 +52,6 @@ def edit_profile_data(request):
     """
     accept:
     nama_lengkap
-    nim
 
     return http_200_ok
     """

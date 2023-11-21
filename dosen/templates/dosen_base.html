@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
+    <title>Eduwall | Login</title>
+
 
     <link rel="stylesheet" href="{% static 'assets/css/main/app.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/main/app-dark.css' %}">
@@ -91,16 +92,52 @@
             </div>
         </div>
 
+        <!-- profile top navbar -->
+        <header class='mb-3'>
+            <nav class="navbar navbar-expand navbar-light navbar-top">
+                <div class="container-fluid">
+                    <a href="#" class="burger-btn d-block">
+                        <i class="bi bi-justify fs-3"></i>
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-lg-0">
+                            <li class="nav-item dropdown me-3">
+                                <a class="nav-link active dropdown-toggle text-gray-600" href="#"
+                                    data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="dropdown">
+                            <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="user-menu d-flex">
+                                    <div class="user-name text-end me-3">
+                                        <h6 class="mb-0 text-gray-600">{{account_data.nama_lengkap}}</h6>
+                                        <p class="mb-0 text-sm text-gray-600">{{account_data.role}}</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"
+                                style="min-width: 11rem;">
+                                <li><a class="dropdown-item" href="{% url 'portal:logout' %}"><i
+                                            class="icon-mid bi bi-box-arrow-left me-2"></i>
+                                        Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
         <!-- main section  -->
         <div id="main">
-            <header class="mb-3">
-                <a href="#" class="burger-btn d-block d-xl-none">
-                    <i class="bi bi-justify fs-3"></i>
-                </a>
-            </header>
-
             <div class="page-heading">
-                <h3>Dashboard Dosen: {{account_data.nama_lengkap}}</h3>
+                <h3>Dashboard Dosen</h3>
             </div>
 
             <div class="page-heading">
