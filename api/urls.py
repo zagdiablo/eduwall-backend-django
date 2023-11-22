@@ -20,7 +20,8 @@ urlpatterns = [
         views.get_detail_mata_kuliah,
         name="get_detail_mata_kuliah",
     ),
-    path("get_materi_data/", views.get_materi_data, name="get_materi_data"),
+    path("get_quiz_data/<int:materi_id>", views.get_quiz_data, name="get_quiz_data"),
+    path("get_quiz_soal/<int:quiz_id>", views.get_quiz_soal, name="get_quiz_soal"),
     path("get_dosen_data/", views.get_dosen_data, name="get_dosen_data"),
 ]
 

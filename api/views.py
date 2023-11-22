@@ -104,31 +104,58 @@ def get_detail_mata_kuliah(request, matkul_id):
     return Response({"materi": serializer.data}, status=status.HTTP_200_OK)
 
 
-# get konten materi
-@api_view(["POST"])
+# get quiz data
+@api_view(["GET"])
 @authentication_classes([TokenAuthentication, SessionAuthentication])
 @permission_classes([IsAuthenticated])
-def get_materi_data(request):
-    """
-    accept:
-    materi_id
+def get_quiz_data(request, materi_id):
+    materi = get_object_or_404(portal_models.Materi, pk=materi_id)
+    quiz = get_list_or_404(portal_models.Quiz, materi=materi)
 
-    return:
-    "materi": {
-        "id": 2,
-        "judul_materi"
-        "url_video"
-        "video_text_transcript"
-        "file_materi"
-        "link_materi"
-        "matkul"
-        "dosen_pembuat"
-    }
-    """
+    serializer = serializers.QuizSerializer(quiz, many=True)
+    return Response(
+        {"quiz": serializer.data},
+        status=status.HTTP_200_OK,
+    )
 
-    mater_konten = get_object_or_404(portal_models.Materi, pk=request.data["materi_id"])
-    serializer = serializers.MateriSerializer(mater_konten)
-    return Response({"materi": serializer.data}, status=status.HTTP_200_OK)
+
+# get soal quiz
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication, SessionAuthentication])
+@permission_classes([IsAuthenticated])
+def get_quiz_soal(request, quiz_id):
+    quiz = get_object_or_404(portal_models.Quiz, pk=quiz_id)
+    soal_quiz = get_list_or_404(portal_models.Soal, quiz=quiz)
+    soal_quiz_serializer = serializers.SoalSerializer(soal_quiz, many=True)
+
+    quiz_format = []
+    quiz_format.append(quiz.id)
+    quiz_format.append(quiz.judul_quiz)
+    for index, soal in enumerate(soal_quiz):
+        jawaban_format = []
+        jawaban = {
+            "a": soal_quiz_serializer.data[index]["jawaban_a"],
+            "b": soal_quiz_serializer.data[index]["jawaban_b"],
+            "c": soal_quiz_serializer.data[index]["jawaban_c"],
+            "d": soal_quiz_serializer.data[index]["jawaban_d"],
+        }
+        jawaban_format.append(
+            jawaban[soal_quiz_serializer.data[index]["jawaban_benar"]]
+        )
+        for chr in "abcd":
+            if chr != soal_quiz_serializer.data[index]["jawaban_benar"]:
+                jawaban_format.append(jawaban[chr])
+
+        quiz_format.append(
+            {
+                "text": soal_quiz_serializer.data[0]["text_soal"],
+                "answer": [jawaban_format],
+            },
+        )
+
+    # print(soal_quiz_serializer.data[0]["text_soal"])
+    print(quiz_format)
+    return Response({"soal_quiz": quiz_format}, status=status.HTTP_200_OK)
 
 
 # get dosen id
