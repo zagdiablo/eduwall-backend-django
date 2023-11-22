@@ -89,7 +89,16 @@ def get_mata_kuliah_data(request):
     kelas_data = get_object_or_404(portal_models.Kelas, id=account_data.kelas_id)
 
     serializer = serializers.KelasSerializer(kelas_data)
-    return Response({"all_matkul": serializer.data}, status=status.HTTP_200_OK)
+    judul_matkul = {}
+    for matkul_id in serializer.data["daftar_matkul"]:
+        judul_matkul[matkul_id] = portal_models.Matkul.objects.get(
+            pk=matkul_id
+        ).judul_matkul
+
+    return Response(
+        {"all_matkul": serializer.data, "judul_matkul": judul_matkul},
+        status=status.HTTP_200_OK,
+    )
 
 
 # get matkul detail
@@ -131,7 +140,7 @@ def get_quiz_soal(request, quiz_id):
     quiz_format = []
     quiz_format.append(quiz.id)
     quiz_format.append(quiz.judul_quiz)
-    for index, soal in enumerate(soal_quiz):
+    for index, _ in enumerate(soal_quiz):
         jawaban_format = []
         jawaban = {
             "a": soal_quiz_serializer.data[index]["jawaban_a"],
