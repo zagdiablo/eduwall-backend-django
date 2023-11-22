@@ -39,6 +39,7 @@ class MateriSerializer(serializers.ModelSerializer):
             "url_video",
             "video_text_transcript",
             "file_materi",
+            "link_materi",
             "matkul",
             "dosen_pembuat",
         ]
