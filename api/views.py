@@ -92,6 +92,18 @@ def get_mata_kuliah_data(request):
     return Response({"all_matkul": serializer.data}, status=status.HTTP_200_OK)
 
 
+# get matkul detail
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication, SessionAuthentication])
+@permission_classes([IsAuthenticated])
+def get_detail_mata_kuliah(request, matkul_id):
+    matkul = get_object_or_404(portal_models.Matkul, pk=matkul_id)
+    materi = get_list_or_404(portal_models.Materi, matkul=matkul)
+
+    serializer = serializers.MateriSerializer(materi, many=True)
+    return Response({"materi": serializer.data}, status=status.HTTP_200_OK)
+
+
 # get konten materi
 @api_view(["POST"])
 @authentication_classes([TokenAuthentication, SessionAuthentication])

@@ -15,6 +15,11 @@ urlpatterns = [
     path(
         "get_mata_kuliah_data/", views.get_mata_kuliah_data, name="get_mata_kuliah_data"
     ),
+    path(
+        "get_detail_mata_kuliah/<int:matkul_id>",
+        views.get_detail_mata_kuliah,
+        name="get_detail_mata_kuliah",
+    ),
     path("get_materi_data/", views.get_materi_data, name="get_materi_data"),
     path("get_dosen_data/", views.get_dosen_data, name="get_dosen_data"),
 ]
