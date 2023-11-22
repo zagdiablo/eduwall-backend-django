@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib.auth.decorators import login_required
 from . import forms
-from .modules.get_youtube_video_transcript import get_transcript
+from .modules.get_youtube_video_transcript import get_transcript, video_id
 from portal import models
 
 
@@ -68,6 +68,9 @@ def edit_materi_matkul(request, materi_id, matkul_id):
     matkul = get_object_or_404(models.Matkul, id=matkul_id)
     all_quiz_materi = models.Quiz.objects.filter(materi=materi)
 
+    youtube_video = f"https://www.youtube.com/embed/{video_id(materi.url_video)}"
+    print(youtube_video)
+
     if request.method == "POST":
         form = forms.EditMateriForm(request.POST, request.FILES, instance=materi)
         if form.is_valid():
@@ -93,6 +96,7 @@ def edit_materi_matkul(request, materi_id, matkul_id):
             "all_quiz_materi": all_quiz_materi,
             "all_matkul_diajar": all_matkul_diajar,
             "account_data": account_data,
+            "youtube_video": youtube_video,
         },
     )
 

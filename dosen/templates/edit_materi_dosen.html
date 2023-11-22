@@ -10,6 +10,11 @@
         </h4>
     </div>
 
+    <div style="text-align: center;" class="card-body">
+        <iframe id="preview-video" width="520" height="315" src="{{youtube_video}}">
+        </iframe>
+    </div>
+
     <div class="card-body">
         <form action="{% url 'dosen:edit_materi_matkul' materi.id matkul.id %}" method="post"
             enctype="multipart/form-data">
