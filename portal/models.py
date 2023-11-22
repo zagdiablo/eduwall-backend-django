@@ -72,6 +72,7 @@ class Materi(models.Model):
     url_video = models.CharField(max_length=200, blank=True, null=True)
     video_text_transcript = models.TextField(blank=True, null=True)
     file_materi = models.FileField(upload_to="dokumen_materi", blank=True, null=True)
+    link_materi = models.CharField(max_length=1000, null=True, blank=True, default="")
     matkul = models.ForeignKey(
         "Matkul",
         related_name="materi_matkul",

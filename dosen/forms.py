@@ -30,6 +30,15 @@ class TambahMateriForm(ModelForm):
             }
         )
     )
+    link_materi = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "id": "basicInput",
+                "placeholder": "Link File Materi",
+            }
+        )
+    )
 
 
 class EditMateriForm(ModelForm):
@@ -56,6 +65,15 @@ class EditMateriForm(ModelForm):
                 "class": "form-control",
                 "id": "basicInput",
                 "placeholder": "URL Video",
+            }
+        )
+    )
+    link_materi = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "id": "basicInput",
+                "placeholder": "Link File Materi",
             }
         )
     )

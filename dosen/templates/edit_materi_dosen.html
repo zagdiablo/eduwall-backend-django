@@ -28,9 +28,13 @@
                 <label for="id_url_video">Edit URL Video</label>
                 {{form.url_video}}
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="id_file_materi">Edit File Materi</label>
                 {{form.file_materi}}
+            </div> -->
+            <div class="form-group">
+                <label for="id_file_materi">Link Download Materi (link Google Drive)</label>
+                {{form.link_materi}}
             </div>
 
             {% if form.errors or form.non_field_errors %}
@@ -39,7 +43,7 @@
             {% endfor %}
             {% endif %}
 
-            <button class="btn btn-primary" type="submit">Edit</button>
+            <button class="btn btn-primary" type="submit">Simpan</button>
         </form>
     </div>
 </div>

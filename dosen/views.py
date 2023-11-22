@@ -69,7 +69,6 @@ def edit_materi_matkul(request, materi_id, matkul_id):
     all_quiz_materi = models.Quiz.objects.filter(materi=materi)
 
     youtube_video = f"https://www.youtube.com/embed/{video_id(materi.url_video)}"
-    print(youtube_video)
 
     if request.method == "POST":
         form = forms.EditMateriForm(request.POST, request.FILES, instance=materi)
@@ -83,7 +82,11 @@ def edit_materi_matkul(request, materi_id, matkul_id):
             return redirect("dosen:tambah_materi_matkul", matkul_id)
     else:
         form = forms.EditMateriForm(
-            initial={"judul_materi": materi.judul_materi, "url_video": materi.url_video}
+            initial={
+                "judul_materi": materi.judul_materi,
+                "url_video": materi.url_video,
+                "link_materi": materi.link_materi,
+            }
         )
 
     return render(
