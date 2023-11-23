@@ -89,12 +89,16 @@ def get_mata_kuliah_data(request):
     kelas_data = get_object_or_404(portal_models.Kelas, id=account_data.kelas_id)
 
     serializer = serializers.KelasSerializer(kelas_data)
-    daftar_matkul = {}
+    daftar_matkul = []
     for index, matkul_id in enumerate(serializer.data["daftar_matkul"]):
-        daftar_matkul[f"matkul_{index}"] = {
-            "id": matkul_id,
-            "nama_matkul": portal_models.Matkul.objects.get(pk=matkul_id).judul_matkul,
-        }
+        daftar_matkul.append(
+            {
+                "id": matkul_id,
+                "nama_matkul": portal_models.Matkul.objects.get(
+                    pk=matkul_id
+                ).judul_matkul,
+            }
+        )
 
     return Response(
         {"all_matkul": serializer.data, "daftar_matkul": daftar_matkul},
