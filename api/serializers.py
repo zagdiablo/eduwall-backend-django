@@ -77,3 +77,9 @@ class RiwayatPengerjaanSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = portal_models.RiwayatPengerjaanQuiz
         fields = ["quiz", "mahasiswa", "tanggal_pengerjaan", "nilai"]
+
+
+class NilaiQuizSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = portal_models.RiwayatPengerjaanQuiz
+        fields = ["quiz", "tanggal_pengerjaan", "nilai"]

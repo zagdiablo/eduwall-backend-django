@@ -193,3 +193,33 @@ def get_dosen_data(request):
 
     serialzer = serializers.RoleSerializer(dosen)
     return Response({"dosen_data": serialzer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@authentication_classes([TokenAuthentication, SessionAuthentication])
+@permission_classes([IsAuthenticated])
+def post_quiz_nilai(request):
+    """
+    accept: quiz_id, nilai
+
+    return status success or failed
+    """
+    account_data = get_object_or_404(portal_models.Role, user=request.user)
+    quiz = get_object_or_404(portal_models.Quiz, pk=request.data["quiz_id"])
+
+    if quiz:
+        new_riwayat_pengerjaan = portal_models.RiwayatPengerjaanQuiz(
+            quiz=quiz, mahasiswa=account_data, nilai=request.data["nilai"]
+        )
+        new_riwayat_pengerjaan.save()
+        return Response({"status": "Success"}, status=status.HTTP_200_OK)
+    return Response({"statuse": "Failed"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication, SessionAuthentication])
+@permission_classes([IsAuthenticated])
+def get_quiz_nilai(request, quiz_id):
+    riwayat = get_object_or_404(portal_models.RiwayatPengerjaanQuiz, quiz=quiz_id)
+    serializer = serializers.NilaiQuizSerializer(riwayat)
+    return Response({"quiz_nilai": serializer.data}, status=status.HTTP_200_OK)

@@ -23,6 +23,8 @@ urlpatterns = [
     path("get_quiz_data/<int:materi_id>", views.get_quiz_data, name="get_quiz_data"),
     path("get_quiz_soal/<int:quiz_id>", views.get_quiz_soal, name="get_quiz_soal"),
     path("get_dosen_data/", views.get_dosen_data, name="get_dosen_data"),
+    path("get_quiz_nilai/<int:quiz_id>", views.get_quiz_nilai, name="get_quiz_nilai"),
+    path("post_quiz_nilai/", views.post_quiz_nilai, name="post_quiz_nilai"),
 ]
 
 
