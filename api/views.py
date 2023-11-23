@@ -145,7 +145,7 @@ def get_quiz_soal(request, quiz_id):
     quiz_format = {}
     quiz_format["id"] = quiz.id
     quiz_format["nama_quiz"] = quiz.judul_quiz
-    quiz_format[""]
+    quiz_capsule = []
     for index, _ in enumerate(soal_quiz):
         jawaban_format = []
         jawaban = {
@@ -161,7 +161,7 @@ def get_quiz_soal(request, quiz_id):
             if chr != soal_quiz_serializer.data[index]["jawaban_benar"]:
                 jawaban_format.append(jawaban[chr])
 
-        quiz_format.append(
+        quiz_capsule.append(
             {
                 "text": soal_quiz_serializer.data[0]["text_soal"],
                 "answer": [jawaban_format],
@@ -169,7 +169,7 @@ def get_quiz_soal(request, quiz_id):
         )
 
     # print(soal_quiz_serializer.data[0]["text_soal"])
-    print(quiz_format)
+    quiz_format['content_quiz'] = quiz_capsule
     return Response({"soal_quiz": quiz_format}, status=status.HTTP_200_OK)
 
 
