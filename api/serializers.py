@@ -50,6 +50,7 @@ class QuizSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = portal_models.Quiz
         fields = [
+            "id",
             "judul_quiz",
             "waktu_pengerjaan",
             "materi",

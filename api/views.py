@@ -142,9 +142,10 @@ def get_quiz_soal(request, quiz_id):
     soal_quiz = get_list_or_404(portal_models.Soal, quiz=quiz)
     soal_quiz_serializer = serializers.SoalSerializer(soal_quiz, many=True)
 
-    quiz_format = []
-    quiz_format.append(quiz.id)
-    quiz_format.append(quiz.judul_quiz)
+    quiz_format = {}
+    quiz_format["id"] = quiz.id
+    quiz_format["nama_quiz"] = quiz.judul_quiz
+    quiz_format[""]
     for index, _ in enumerate(soal_quiz):
         jawaban_format = []
         jawaban = {
