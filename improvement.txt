@@ -1,0 +1,4 @@
+improvement:
+admin page:
+- di bagian edit materi, pada table quiz, list jumlah soal yang telah di masukan ke quiz tsb
+- di bagian edit quiz, tambah soal dijadikan modal biar lebih intuitif

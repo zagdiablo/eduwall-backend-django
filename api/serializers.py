@@ -29,8 +29,17 @@ class MatkulSerializer(serializers.ModelSerializer):
         fields = ["id", "judul_matkul", "dosen_pengampu"]
 
 
+# get quiz data per materi
+class MateriQuizesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = portal_models.Quiz
+        fields = "__all__"
+
+
 # get materi data
 class MateriSerializer(serializers.ModelSerializer):
+    quiz = MateriQuizesSerializer(source="materi_quiz", many=True)
+
     class Meta(object):
         model = portal_models.Materi
         fields = [
@@ -42,6 +51,7 @@ class MateriSerializer(serializers.ModelSerializer):
             "link_materi",
             "matkul",
             "dosen_pembuat",
+            "quiz",
         ]
 
 

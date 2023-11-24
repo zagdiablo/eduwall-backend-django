@@ -106,6 +106,20 @@ def get_mata_kuliah_data(request):
     )
 
 
+# get quiz per materi
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication, SessionAuthentication])
+@permission_classes([IsAuthenticated])
+def get_quiz_per_materi(request, materi_id):
+    """
+    accept: materi id
+    return: materi details + quizes in materi
+    """
+    materi = get_object_or_404(portal_models.Materi, pk=materi_id)
+    serializer = serializers.MateriSerializer(materi)
+    return Response({"quizes": serializer.data}, status=status.HTTP_200_OK)
+
+
 # get matkul detail
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication, SessionAuthentication])
@@ -148,17 +162,21 @@ def get_quiz_soal(request, quiz_id):
     quiz_capsule = []
     for index, _ in enumerate(soal_quiz):
         jawaban_format = []
-        jawaban = {
-            "a": soal_quiz_serializer.data[index]["jawaban_a"],
-            "b": soal_quiz_serializer.data[index]["jawaban_b"],
-            "c": soal_quiz_serializer.data[index]["jawaban_c"],
-            "d": soal_quiz_serializer.data[index]["jawaban_d"],
-        }
+        jawaban = {}
+        try:
+            jawaban = {
+                "a": soal_quiz_serializer.data[index]["jawaban_a"].lower(),
+                "b": soal_quiz_serializer.data[index]["jawaban_b"].lower(),
+                "c": soal_quiz_serializer.data[index]["jawaban_c"].lower(),
+                "d": soal_quiz_serializer.data[index]["jawaban_d"].lower(),
+            }
+        except Exception as e:
+            print(e)
         jawaban_format.append(
-            jawaban[soal_quiz_serializer.data[index]["jawaban_benar"]]
+            jawaban[soal_quiz_serializer.data[index]["jawaban_benar"].lower()]
         )
         for chr in "abcd":
-            if chr != soal_quiz_serializer.data[index]["jawaban_benar"]:
+            if chr != soal_quiz_serializer.data[index]["jawaban_benar"].lower():
                 jawaban_format.append(jawaban[chr])
 
         quiz_capsule.append(
@@ -169,7 +187,7 @@ def get_quiz_soal(request, quiz_id):
         )
 
     # print(soal_quiz_serializer.data[0]["text_soal"])
-    quiz_format['content_quiz'] = quiz_capsule
+    quiz_format["content_quiz"] = quiz_capsule
     return Response({"soal_quiz": quiz_format}, status=status.HTTP_200_OK)
 
 
