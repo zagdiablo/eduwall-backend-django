@@ -182,7 +182,7 @@ def get_quiz_soal(request, quiz_id):
         quiz_capsule.append(
             {
                 "text": soal_quiz_serializer.data[0]["text_soal"],
-                "answer": [jawaban_format],
+                "answer": jawaban_format,
             },
         )
 
