@@ -36,6 +36,7 @@ def tambah_materi_matkul(request, matkul_id):
 
     if request.method == "POST":
         form = forms.TambahMateriForm(request.POST, request.FILES)
+        print(form.is_valid())
         if form.is_valid():
             materi = form.save(commit=False)
             materi.matkul = matkul
@@ -85,7 +86,7 @@ def edit_materi_matkul(request, materi_id, matkul_id):
             initial={
                 "judul_materi": materi.judul_materi,
                 "url_video": materi.url_video,
-                "link_materi": materi.link_materi,
+                "file_materi": materi.file_materi,
             }
         )
 

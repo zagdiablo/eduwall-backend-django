@@ -6,11 +6,7 @@ from django import forms
 class TambahMateriForm(ModelForm):
     class Meta:
         model = models.Materi
-        exclude = (
-            "dosen_pembuat",
-            "matkul",
-            "video_text_transcript",
-        )
+        exclude = ("dosen_pembuat", "matkul", "video_text_transcript", "link_materi")
 
     judul_materi = forms.CharField(
         widget=forms.TextInput(
@@ -30,25 +26,21 @@ class TambahMateriForm(ModelForm):
             }
         )
     )
-    link_materi = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "class": "form-control",
-                "id": "basicInput",
-                "placeholder": "Link File Materi",
-            }
-        )
-    )
+    # link_materi = forms.CharField(
+    #     widget=forms.TextInput(
+    #         attrs={
+    #             "class": "form-control",
+    #             "id": "basicInput",
+    #             "placeholder": "Link File Materi",
+    #         }
+    #     )
+    # )
 
 
 class EditMateriForm(ModelForm):
     class Meta:
         model = models.Materi
-        exclude = (
-            "dosen_pembuat",
-            "matkul",
-            "video_text_transcript",
-        )
+        exclude = ("dosen_pembuat", "matkul", "video_text_transcript", "link_materi")
 
     judul_materi = forms.CharField(
         widget=forms.TextInput(
@@ -68,15 +60,15 @@ class EditMateriForm(ModelForm):
             }
         )
     )
-    link_materi = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "class": "form-control",
-                "id": "basicInput",
-                "placeholder": "Link File Materi",
-            }
-        )
-    )
+    # link_materi = forms.CharField(
+    #     widget=forms.TextInput(
+    #         attrs={
+    #             "class": "form-control",
+    #             "id": "basicInput",
+    #             "placeholder": "Link File Materi",
+    #         }
+    #     )
+    # )
 
 
 class EditQuizForm(ModelForm):
