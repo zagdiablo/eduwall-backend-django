@@ -243,6 +243,8 @@ def post_quiz_nilai(request):
 @authentication_classes([TokenAuthentication, SessionAuthentication])
 @permission_classes([IsAuthenticated])
 def get_quiz_nilai(request, quiz_id):
-    riwayat = get_object_or_404(portal_models.RiwayatPengerjaanQuiz, quiz=quiz_id)
-    serializer = serializers.NilaiQuizSerializer(riwayat)
+    riwayat = get_list_or_404(portal_models.RiwayatPengerjaanQuiz, quiz=quiz_id)
+    # riwayat = get_object_or_404(portal_models.RiwayatPengerjaanQuiz, quiz=quiz_id)
+    serializer = serializers.NilaiQuizSerializer(riwayat, many=True)
+    # serializer = serializers.NilaiQuizSerializer(riwayat)
     return Response({"quiz_nilai": serializer.data}, status=status.HTTP_200_OK)
