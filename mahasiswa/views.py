@@ -21,7 +21,7 @@ def dashboard(request):
         #     "mahasiswa_base.html",
         #     {"site_title": "Dashboard Mahasiswa", "account_data": account_data},
         # )
-        return redirect('mahasiswa:list_mata_kuliah')
+        return redirect("mahasiswa:list_mata_kuliah")
 
     return redirect("portal:logout", kwargs={"site_title": "Login"})
 
@@ -38,7 +38,7 @@ def edit_profile(request):
             # account_data.nim = form.cleaned_data["nim"]
             account_data.save()
 
-            return render( 
+            return render(
                 request,
                 "edit_profile_mahasiswa.html",
                 {
@@ -98,7 +98,7 @@ def konten_materi(request, materi_id):
 def modul_materi(request, materi_id):
     materi = get_object_or_404(models.Materi, id=materi_id)
     try:
-        file_module = materi.file_materi.url
+        file_module = "dokumen_materi/" + materi.file_materi.url
         return render(
             request,
             "modul_materi_mahasiswa.html",
